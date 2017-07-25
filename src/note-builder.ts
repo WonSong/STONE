@@ -94,10 +94,29 @@ export default class NoteBuilder {
     const note = this.note;
     const app = express();
     app.get('/', function (req, res) {
-      fs.readFile(path.join(__dirname, '..', '..', 'src', 'client.js'), (err, data) => {
-        res.send(`<html><head><input id="payload" type="hidden" value="${encodeURIComponent(note)}" /><script>${data}</script></head><html>`);
-        server.close();
-      });
+      const styles = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'client.css'));
+      const scripts = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'client.js'));
+      const html = [
+        '<html>',
+        '  <head>',
+        `    <style>${styles}</style>`,
+        '  </head>',
+        '  <body>',
+        '    <div class="header">',
+        '      <div class="brand">Project S.T.O.N.E</div>',
+        '      <ul class="menus">',
+        '        <li><a id="app-link">Open in App</a></li>',
+        '        <li><a id="web-link">Open in Web</a></li>',
+        '      </ul>',
+        '    </div>',
+        '    <div id="preview"></div>',
+        `    <input type="hidden" id="payload" value="${encodeURIComponent(note)}" />`,
+        `    <script>${scripts}</script>`,
+        '  </body>',
+        '</html>'
+      ]
+      res.send(html.join(''));
+      server.close();
     });
     const server = app.listen(1337, function () {
       var scopes = ['wl.signin', 'office.onenote_create'];
