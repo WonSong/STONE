@@ -2,12 +2,9 @@
 
 import * as vscode from 'vscode';
 import * as MarkdownIt from 'markdown-it';
-import Auth from './auth';
+import NoteBuilder from './note-builder';
 
 export function activate(context: vscode.ExtensionContext) {
-
-  const auth = new Auth();
-  const mdEngine = new MarkdownIt();
 
   let disposable = vscode.commands.registerCommand('extension.sayHello', () => {
 
@@ -18,24 +15,17 @@ export function activate(context: vscode.ExtensionContext) {
 
     const selection = editor.selection;
     const selectedText = editor.document.getText(selection);
-    const rendered = mdEngine.render(selectedText);
 
-    var htmlPayload =
-      "<!DOCTYPE html>" +
-      "<html>" +
-      "<head>" +
-      "    <title>A page created from basic HTML-formatted text (Node.js Sample)</title>" +
-      "    <meta name=\"created\" content=\"" + new Date().toISOString() + "\">" +
-      "</head>" +
-      "<body>" + rendered + "</body>" +
-      "</html>";
-    auth.getAccessToken(htmlPayload);
+    const noteBuilder = new NoteBuilder();
+    noteBuilder.addTitle('My Test Note');
+    noteBuilder.addContent(selectedText);
+    noteBuilder.create();
 
-});
+  });
 
-context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
+
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {
 }
