@@ -1,6 +1,6 @@
 {
     "name": "stone",
-    "displayName": "STONE",
+    "displayName": "S.T.O.N.E.",
     "description": "Send To OneNote Extension for Visual Studio Code",
     "version": "0.0.1",
     "publisher": "wonsong",
@@ -11,14 +11,19 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.sendPageToOneNote",
+        "onCommand:extension.sendSelectionToOneNote"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "command": "extension.sendPageToOneNote",
+                "title": "Send this page to OneNote"
+            },
+            {
+                "command": "extension.sendSelectionToOneNote",
+                "title": "Send the selection to OneNote"
             }
         ]
     },

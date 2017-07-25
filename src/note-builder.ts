@@ -39,18 +39,46 @@ export default class NoteBuilder {
     this.note = this.note.replace('{title}', title);
   }
 
-  addContent(content: string) {
-    let test = hljs.highlight('javascript', content).value;
-    test = test.replace('class="hljs-keyword"', 'style="color: red"');
-    this.note = this.note.replace('{content}', '<pre>' + test + '</pre>');
-  }
-
   addMarkDownContent(content: string) {
 
   }
 
   addCodeContent(language: string, codeContent: string) {
-    
+    let tokenized = hljs.highlight(language, codeContent).value;
+    this.note = this.note.replace('{content}', '<pre>' + tokenized + '</pre>');
+  }
+
+  applyStyle() {
+    this.note = this.note.replace(/class="hljs-meta"/g, 'style="color: #969896"');
+    this.note = this.note.replace(/class="hljs-comment"/g, 'style="color: #969896"');
+
+    this.note = this.note.replace(/class="hljs-string"/g, 'style="color: #df5000"');
+    this.note = this.note.replace(/class="hljs-variable"/g, 'style="color: #df5000"');
+    this.note = this.note.replace(/class="hljs-template-variable"/g, 'style="color: #df5000"');
+    this.note = this.note.replace(/class="hljs-strong"/g, 'style="color: #df5000"');
+    this.note = this.note.replace(/class="hljs-emphasis"/g, 'style="color: #df5000"');
+    this.note = this.note.replace(/class="hljs-quote"/g, 'style="color: #df5000"');
+
+    this.note = this.note.replace(/class="hljs-keyword"/g, 'style="color: #a71d5d"');
+    this.note = this.note.replace(/class="hljs-selector-tag"/g, 'style="color: #a71d5d"');
+    this.note = this.note.replace(/class="hljs-type"/g, 'style="color: #a71d5d"');
+
+    this.note = this.note.replace(/class="hljs-literal"/g, 'style="color: #0086b3"');
+    this.note = this.note.replace(/class="hljs-symbol"/g, 'style="color: #0086b3"');
+    this.note = this.note.replace(/class="hljs-bullet"/g, 'style="color: #0086b3"');
+    this.note = this.note.replace(/class="hljs-attribute"/g, 'style="color: #0086b3"');
+
+    this.note = this.note.replace(/class="hljs-section"/g, 'style="color: #63a35c"');
+    this.note = this.note.replace(/class="hljs-name"/g, 'style="color: #63a35c"');
+
+    this.note = this.note.replace(/class="hljs-tag"/g, 'style="color: #333333"');
+
+    this.note = this.note.replace(/class="hljs-title"/g, 'style="color: #795da3"');
+    this.note = this.note.replace(/class="hljs-attr"/g, 'style="color: #795da3"');
+    this.note = this.note.replace(/class="hljs-selector-id"/g, 'style="color: #795da3"');
+    this.note = this.note.replace(/class="hljs-selector-class"/g, 'style="color: #795da3"');
+    this.note = this.note.replace(/class="hljs-selector-attr"/g, 'style="color: #795da3"');
+    this.note = this.note.replace(/class="hljs-selector-pseudo"/g, 'style="color: #795da3"');
   }
 
   create() {
@@ -60,8 +88,10 @@ export default class NoteBuilder {
     app.get('/', function (req, res) {
       fs.readFile(path.join(__dirname, '..', '..', 'src', 'client.js'), (err, data) => {
         res.send(`<html><head><input id="payload" type="hidden" value="${encodeURIComponent(note)}" /><script>${data}</script></head><html>`);
+        server.close();
       });
-    }).listen(1337, function () {
+    });
+    const server = app.listen(1337, function () {
       var scopes = ['wl.signin', 'office.onenote_create'];
       var query = toQueryString({
         'client_id': this.clientId,
