@@ -1,11 +1,12 @@
 import * as request from 'request';
 import * as opn from 'opn';
 import * as express from 'express';
+import * as path from 'path';
+import * as fs from 'fs';
 
 export default class LiveConnectClient {
 
   clientId: string;
-  clientSecret: String;
   redirectUrl: string;
   oAuthAuthroizeUrl: string;
   oAuthTokenUrl: string;
@@ -14,7 +15,6 @@ export default class LiveConnectClient {
     this.oAuthAuthroizeUrl = 'https://login.live.com/oauth20_authorize.srf';
     this.oAuthTokenUrl = 'https://login.live.com/oauth20_token.srf';
     this.clientId = 'ad4f3512-b60e-47f8-96d8-5d52faeebd35';
-    this.clientSecret = '5FcP3xrekMYohDbKW3Xm5aa';
     this.redirectUrl = 'http://localhost:1337';
   }
 
@@ -33,44 +33,22 @@ export default class LiveConnectClient {
       'client_id': this.clientId,
       'scope': scopes.join(' '),
       'redirect_uri': this.redirectUrl,
-      'response_type': 'code'
+      'response_type': 'token'
     });
     return this.oAuthAuthroizeUrl + "?" + query;
   }
 
-  getAuthCode() {
+  getAccessToken(htmlPayLoad) {
 
     return new Promise<string>((resolve, reject) => {
       const app = express();
       app.get('/', function (req, res) {
-        resolve(req.query.code);
-        res.send('You may close this window.')
+        fs.readFile(path.join(__dirname, '..', '..', 'src', 'client.js'), (err, data) => {
+          res.send( `<html><head><input id="payload" type="hidden" value="${encodeURIComponent(htmlPayLoad)}" /><script>${data}</script></head><html>`);
+        });
       }).listen(1337, function () {
         opn(this.getAuthUrl());
       }.bind(this));
-    });
-
-  }
-
-  getAccessToken(code) {
-
-    return new Promise<object>((resolve, reject) => {
-      request.post({
-        url: this.oAuthTokenUrl,
-        form: {
-          'client_id': this.clientId,
-          'client_secret': this.clientSecret,
-          'redirect_uri': this.redirectUrl,
-          'code': code,
-          'grant_type': 'authorization_code'
-        }
-      }, function (error, response, body) {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(JSON.parse(body));
-        }
-      });
     });
 
   }
