@@ -18,8 +18,6 @@ export default class NoteBuilder {
 
   constructor() {
 
-    hljs.configure({ useBR: true });
-
     this.oAuthAuthroizeUrl = 'https://login.live.com/oauth20_authorize.srf';
     this.clientId = 'ad4f3512-b60e-47f8-96d8-5d52faeebd35';
     this.redirectUrl = 'http://localhost:1337';
@@ -106,7 +104,6 @@ export default class NoteBuilder {
         '      <div class="brand">Project S.T.O.N.E</div>',
         '      <ul class="menus">',
         '        <li><a id="app-link">Open in App</a></li>',
-        '        <li><a id="web-link">Open in Web</a></li>',
         '      </ul>',
         '    </div>',
         '    <div id="preview"></div>',

@@ -17,7 +17,6 @@
     if (request.readyState === XMLHttpRequest.DONE && request.status === 201) {
       const response = JSON.parse(request.responseText);
       document.getElementById('app-link').setAttribute('href', response.links.oneNoteClientUrl.href);
-      document.getElementById('web-link').setAttribute('href', response.links.oneNoteWebUrl.href);
     }
   }
 })();
