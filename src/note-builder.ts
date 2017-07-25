@@ -14,14 +14,25 @@ export default class NoteBuilder {
   note: string;
   _title: string;
   _content: Array<string>;
-  mdEngine: any; 
+  mdEngine: any;
 
   constructor() {
+
+    hljs.configure({ useBR: true });
 
     this.oAuthAuthroizeUrl = 'https://login.live.com/oauth20_authorize.srf';
     this.clientId = 'ad4f3512-b60e-47f8-96d8-5d52faeebd35';
     this.redirectUrl = 'http://localhost:1337';
-    this.mdEngine = new MarkdownIt();
+    this.mdEngine = new MarkdownIt({
+      highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return hljs.highlight(lang, str).value;
+          } catch (__) { }
+        }
+        return '';
+      }
+    });
     this.note = [
       "<!DOCTYPE html>",
       "<html>",
@@ -40,7 +51,7 @@ export default class NoteBuilder {
   }
 
   addMarkDownContent(content: string) {
-
+    this.note = this.note.replace('{content}', this.mdEngine.render(content));
   }
 
   addCodeContent(language: string, codeContent: string) {
@@ -48,37 +59,34 @@ export default class NoteBuilder {
     this.note = this.note.replace('{content}', '<pre>' + tokenized + '</pre>');
   }
 
-  applyStyle() {
-    this.note = this.note.replace(/class="hljs-meta"/g, 'style="color: #969896"');
-    this.note = this.note.replace(/class="hljs-comment"/g, 'style="color: #969896"');
-
-    this.note = this.note.replace(/class="hljs-string"/g, 'style="color: #df5000"');
-    this.note = this.note.replace(/class="hljs-variable"/g, 'style="color: #df5000"');
-    this.note = this.note.replace(/class="hljs-template-variable"/g, 'style="color: #df5000"');
-    this.note = this.note.replace(/class="hljs-strong"/g, 'style="color: #df5000"');
-    this.note = this.note.replace(/class="hljs-emphasis"/g, 'style="color: #df5000"');
-    this.note = this.note.replace(/class="hljs-quote"/g, 'style="color: #df5000"');
-
-    this.note = this.note.replace(/class="hljs-keyword"/g, 'style="color: #a71d5d"');
-    this.note = this.note.replace(/class="hljs-selector-tag"/g, 'style="color: #a71d5d"');
-    this.note = this.note.replace(/class="hljs-type"/g, 'style="color: #a71d5d"');
-
-    this.note = this.note.replace(/class="hljs-literal"/g, 'style="color: #0086b3"');
-    this.note = this.note.replace(/class="hljs-symbol"/g, 'style="color: #0086b3"');
-    this.note = this.note.replace(/class="hljs-bullet"/g, 'style="color: #0086b3"');
-    this.note = this.note.replace(/class="hljs-attribute"/g, 'style="color: #0086b3"');
-
-    this.note = this.note.replace(/class="hljs-section"/g, 'style="color: #63a35c"');
-    this.note = this.note.replace(/class="hljs-name"/g, 'style="color: #63a35c"');
-
-    this.note = this.note.replace(/class="hljs-tag"/g, 'style="color: #333333"');
-
-    this.note = this.note.replace(/class="hljs-title"/g, 'style="color: #795da3"');
-    this.note = this.note.replace(/class="hljs-attr"/g, 'style="color: #795da3"');
-    this.note = this.note.replace(/class="hljs-selector-id"/g, 'style="color: #795da3"');
-    this.note = this.note.replace(/class="hljs-selector-class"/g, 'style="color: #795da3"');
-    this.note = this.note.replace(/class="hljs-selector-attr"/g, 'style="color: #795da3"');
-    this.note = this.note.replace(/class="hljs-selector-pseudo"/g, 'style="color: #795da3"');
+  applyStyle(colorTheme) {
+    this.note =
+      this.note
+        .replace(/class="hljs-meta"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.meta || colorTheme.default};"`)
+        .replace(/class="hljs-comment"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.comment || colorTheme.default};"`)
+        .replace(/class="hljs-string"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.string || colorTheme.default};"`)
+        .replace(/class="hljs-variable"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.variable || colorTheme.default};"`)
+        .replace(/class="hljs-template-variable"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.templateVariable || colorTheme.default};"`)
+        .replace(/class="hljs-strong"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; : ${colorTheme.strong || colorTheme.default};`)
+        .replace(/class="hljs-emphasis"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.emphasis || colorTheme.default};`)
+        .replace(/class="hljs-quote"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.quote || colorTheme.default};"`)
+        .replace(/class="hljs-keyword"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.keyword || colorTheme.default};"`)
+        .replace(/class="hljs-selector-tag"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.selectorTag || colorTheme.default};"`)
+        .replace(/class="hljs-type"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.type || colorTheme.default};"`)
+        .replace(/class="hljs-literal"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.literal || colorTheme.default};"`)
+        .replace(/class="hljs-symbol"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.symbol || colorTheme.default};"`)
+        .replace(/class="hljs-bullet"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.bullet || colorTheme.default};"`)
+        .replace(/class="hljs-attribute"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.attribute || colorTheme.default};"`)
+        .replace(/class="hljs-section"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.section || colorTheme.default};"`)
+        .replace(/class="hljs-name"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.name || colorTheme.default};"`)
+        .replace(/class="hljs-tag"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.tag || colorTheme.default};"`)
+        .replace(/class="hljs-title"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.title || colorTheme.default};"`)
+        .replace(/class="hljs-attr"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.attr || colorTheme.default};"`)
+        .replace(/class="hljs-selector-id"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.selectorId || colorTheme.default};"`)
+        .replace(/class="hljs-selector-class"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.selectorClass || colorTheme.default};"`)
+        .replace(/class="hljs-selector-attr"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.selectorAttr || colorTheme.default};"`)
+        .replace(/class="hljs-selector-pseudo"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.selectorPseudo || colorTheme.default};"`)
+        .replace(/class="hljs-.*?"/g, `style="font-family: ${colorTheme.fontFamily}; font-size: ${colorTheme.fontSize}px; color: ${colorTheme.default};"`);
   }
 
   create() {

@@ -20,8 +20,12 @@ export function activate(context: vscode.ExtensionContext) {
 
         noteBuilder = new NoteBuilder();
         noteBuilder.addTitle('Sent from Visual Studio Code: ' + editor.document.fileName.replace(/^.*[\\\/]/, ''));
-        noteBuilder.addCodeContent(editor.document.languageId, editor.document.getText())
-        noteBuilder.applyStyle();
+        if (editor.document.languageId === 'markdown') {
+          noteBuilder.addMarkDownContent(editor.document.getText());
+        } else {
+          noteBuilder.addCodeContent(editor.document.languageId, editor.document.getText())
+        }
+        noteBuilder.applyStyle(vscode.workspace.getConfiguration('stone.theme'));
         noteBuilder.create();
 
       }
@@ -48,8 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
 
         noteBuilder = new NoteBuilder();
         noteBuilder.addTitle('Sent from Visual Studio Code: Part of ' + editor.document.fileName.replace(/^.*[\\\/]/, ''));
-        noteBuilder.addCodeContent(editor.document.languageId, selectedText);
-        noteBuilder.applyStyle();
+        if (editor.document.languageId === 'markdown') {
+          noteBuilder.addMarkDownContent(selectedText);
+        } else {
+          noteBuilder.addCodeContent(editor.document.languageId, selectedText)
+        }
+        noteBuilder.applyStyle(vscode.workspace.getConfiguration('stone.theme'));
         noteBuilder.create();
 
       }

@@ -25,7 +25,138 @@
                 "command": "extension.sendSelectionToOneNote",
                 "title": "Send the selection to OneNote"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "S.T.O.N.E Color Theme Configuration",
+            "properties": {
+                "stone.theme.default": {
+                    "type": "string",
+                    "default": "#333",
+                    "description": "HEX Code for default colors"
+                },
+                "stone.theme.fontFamily": {
+                    "type": "string",
+                    "default": "Consolas",
+                    "description": "Default font family"
+                },
+                "stone.theme.fontSize": {
+                    "type": "number",
+                    "default": 14,
+                    "description": "Default font size"
+                },
+                "stone.theme.comment": {
+                    "type": "string",
+                    "default": "#969896",
+                    "description": "HEX Code for comments"
+                },
+                "stone.theme.quote": {
+                    "type": "string",
+                    "default": "#df5000",
+                    "description": "HEX Code for quotes"
+                },
+                "stone.theme.variable": {
+                    "type": "string",
+                    "default": "#df5000",
+                    "description": "HEX Code for variables"
+                },
+                "stone.theme.keyword": {
+                    "type": "string",
+                    "default": "#a71d5d",
+                    "description": "HEX Code for keywords"
+                },
+                "stone.theme.selectorTag": {
+                    "type": "string",
+                    "default": "#a71d5d",
+                    "description": "HEX Code for selector tags"
+                },
+                "stone.theme.builtIn": {
+                    "type": "string",
+                    "default": "#00f",
+                    "description": "HEX Code for built ins"
+                },
+                "stone.theme.name": {
+                    "type": "string",
+                    "default": "#63a35c",
+                    "description": "HEX Code for names" 
+                },
+                "stone.theme.tag": {
+                    "type": "string",
+                    "default": "#333333",
+                    "description": "HEX Code for tags" 
+                },
+                "stone.theme.string": {
+                    "type": "string",
+                    "default": "#df5000",
+                    "description": "HEX Code for strings" 
+                },
+                "stone.theme.title": {
+                    "type": "string",
+                    "default": "#795da3",
+                    "description": "HEX Code for titles" 
+                },
+                "stone.theme.section": {
+                    "type": "string",
+                    "default": "#63a35c",
+                    "description": "HEX Code for sections" 
+                },
+                "stone.theme.attribute": {
+                    "type": "string",
+                    "default": "#0086b3",
+                    "description": "HEX Code for attributes" 
+                },
+                "stone.theme.literal": {
+                    "type": "string",
+                    "default": "#0086b3",
+                    "description": "HEX Code for literals" 
+                },
+                "stone.theme.templateTag": {
+                    "type": "string",
+                    "default": "#a31515",
+                    "description": "HEX Code for template tags" 
+                },
+                "stone.theme.templateVariables": {
+                    "type": "string",
+                    "default": "#333",
+                    "description": "HEX Code for template variables" 
+                },
+                "stone.theme.type": {
+                    "type": "string",
+                    "default": "#a71d5d",
+                    "description": "HEX Code for types" 
+                },
+                "stone.theme.meta": {
+                    "type": "string",
+                    "default": "#969896",
+                    "description": "HEX Code for meta" 
+                },
+                "stone.theme.docTag": {
+                    "type": "string",
+                    "default": "#333333",
+                    "description": "HEX Code for doc tags" 
+                },
+                "stone.theme.attr": {
+                    "type": "string",
+                    "default": "#795da3",
+                    "description": "HEX Code for attrs" 
+                },
+                "stone.theme.symbol": {
+                    "type": "string",
+                    "default": "#0086b3",
+                    "description": "HEX Code for symbols" 
+                },
+                "stone.theme.bullet": {
+                    "type": "string",
+                    "default": "#0086b3",
+                    "description": "HEX Code for bullets" 
+                },
+                "stone.theme.links": {
+                    "type": "string",
+                    "default": "#00b0e8",
+                    "description": "HEX Code for links" 
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
