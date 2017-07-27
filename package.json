@@ -2,7 +2,7 @@
     "name": "project-stone",
     "displayName": "Project S.T.O.N.E.",
     "description": "Send To OneNote Extension. Send code snippets and markdown documents to Microsoft OneNote",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "wonsong",
     "engines": {
         "vscode": "^1.14.0"
