@@ -2,8 +2,8 @@
 
 You get two commands with this extension:
 
-> Send current document to OneNote
-> Send current selection to OneNote
+* Send current document to OneNote
+* Send current selection to OneNote
 
 Once you make a selection, a browser window will open, and ask you to grant permission to this extension to create OneNote documents on your behalf. 
 Then, I used localhost server to redirect authorization, and finish calling the OneNote API.
