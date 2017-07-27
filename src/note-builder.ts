@@ -92,8 +92,8 @@ export default class NoteBuilder {
     const note = this.note;
     const app = express();
     app.get('/', function (req, res) {
-      const styles = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'client.css'));
-      const scripts = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'client.js'));
+      const styles = fs.readFileSync(path.join(__dirname, 'client.css'));
+      const scripts = fs.readFileSync(path.join(__dirname, 'client.js'));
       const html = [
         '<html>',
         '  <head>',

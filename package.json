@@ -1,7 +1,7 @@
 {
-    "name": "stone",
-    "displayName": "S.T.O.N.E.",
-    "description": "Send To OneNote Extension for Visual Studio Code",
+    "name": "project-stone",
+    "displayName": "Project S.T.O.N.E.",
+    "description": "Send To OneNote Extension. Send code snippets and markdown documents to Microsoft OneNote",
     "version": "0.0.1",
     "publisher": "wonsong",
     "engines": {
@@ -19,11 +19,11 @@
         "commands": [
             {
                 "command": "extension.sendPageToOneNote",
-                "title": "Send this page to OneNote"
+                "title": "Send current document to OneNote"
             },
             {
                 "command": "extension.sendSelectionToOneNote",
-                "title": "Send the selection to OneNote"
+                "title": "Send current selection to OneNote"
             }
         ],
         "configuration": {
@@ -78,98 +78,100 @@
                 "stone.theme.name": {
                     "type": "string",
                     "default": "#63a35c",
-                    "description": "HEX Code for names" 
+                    "description": "HEX Code for names"
                 },
                 "stone.theme.tag": {
                     "type": "string",
                     "default": "#333333",
-                    "description": "HEX Code for tags" 
+                    "description": "HEX Code for tags"
                 },
                 "stone.theme.string": {
                     "type": "string",
                     "default": "#df5000",
-                    "description": "HEX Code for strings" 
+                    "description": "HEX Code for strings"
                 },
                 "stone.theme.title": {
                     "type": "string",
                     "default": "#795da3",
-                    "description": "HEX Code for titles" 
+                    "description": "HEX Code for titles"
                 },
                 "stone.theme.section": {
                     "type": "string",
                     "default": "#63a35c",
-                    "description": "HEX Code for sections" 
+                    "description": "HEX Code for sections"
                 },
                 "stone.theme.attribute": {
                     "type": "string",
                     "default": "#0086b3",
-                    "description": "HEX Code for attributes" 
+                    "description": "HEX Code for attributes"
                 },
                 "stone.theme.literal": {
                     "type": "string",
                     "default": "#0086b3",
-                    "description": "HEX Code for literals" 
+                    "description": "HEX Code for literals"
                 },
                 "stone.theme.templateTag": {
                     "type": "string",
                     "default": "#a31515",
-                    "description": "HEX Code for template tags" 
+                    "description": "HEX Code for template tags"
                 },
                 "stone.theme.templateVariables": {
                     "type": "string",
                     "default": "#333",
-                    "description": "HEX Code for template variables" 
+                    "description": "HEX Code for template variables"
                 },
                 "stone.theme.type": {
                     "type": "string",
                     "default": "#a71d5d",
-                    "description": "HEX Code for types" 
+                    "description": "HEX Code for types"
                 },
                 "stone.theme.meta": {
                     "type": "string",
                     "default": "#969896",
-                    "description": "HEX Code for meta" 
+                    "description": "HEX Code for meta"
                 },
                 "stone.theme.docTag": {
                     "type": "string",
                     "default": "#333333",
-                    "description": "HEX Code for doc tags" 
+                    "description": "HEX Code for doc tags"
                 },
                 "stone.theme.attr": {
                     "type": "string",
                     "default": "#795da3",
-                    "description": "HEX Code for attrs" 
+                    "description": "HEX Code for attrs"
                 },
                 "stone.theme.symbol": {
                     "type": "string",
                     "default": "#0086b3",
-                    "description": "HEX Code for symbols" 
+                    "description": "HEX Code for symbols"
                 },
                 "stone.theme.bullet": {
                     "type": "string",
                     "default": "#0086b3",
-                    "description": "HEX Code for bullets" 
+                    "description": "HEX Code for bullets"
                 },
                 "stone.theme.links": {
                     "type": "string",
                     "default": "#00b0e8",
-                    "description": "HEX Code for links" 
+                    "description": "HEX Code for links"
                 }
             }
         }
     },
     "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
+        "vscode:prepublish": "npm run copy-client-files && tsc -p ./",
+        "compile": "npm run copy-client-files && tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+        "test": "node ./node_modules/vscode/bin/test",
+        "copy-client-files": "ncp src/client.css out/src/client.css && ncp src/client.js out/src/client.js"
     },
     "devDependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
-        "mocha": "^2.3.3",
+        "@types/mocha": "^2.2.32",
         "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32"
+        "mocha": "^2.3.3",
+        "ncp": "^2.0.0",
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0"
     },
     "dependencies": {
         "@types/express": "^4.0.36",
