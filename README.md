@@ -36,7 +36,7 @@ If you face issues, please open a bug at https://github.com/WonSong/STONE/issues
 
 ## Release Notes
 
-### 0.0.1
+### 0.1.0
 
 Initial release.
 
